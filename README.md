@@ -65,9 +65,9 @@ This service supports the following PDF generation tools:
 4. WeasyPrint ([License](https://doc.courtbouillon.org/weasyprint/stable/))
 5. AH Formatter ([License](https://www.antennahouse.com/licensing))
 
-Each tool has its own strengths and may produce slightly different results. Choose the tool that best fits your specific requirements.
+Each tool has its own strengths and may produce slightly different results. This docker container will help you to choose the tool that best fits your specific requirements.
 
-There is no possibility to add the license keys for PDFreactor and Prince yet.
+There is no possibility to add the license keys for PDFreactor, AH Formatter and Prince yet.
 
 ## Notes
 - The service runs on port 5000 inside the container, which is mapped to port 5000 on your host machine in the example run command above.
