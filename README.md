@@ -17,9 +17,19 @@ To build the Docker container for this service, follow these steps:
    docker build -t printcss-live-backend .
    ```
 
-   Or with AH Formatter (needs to be an *.rpm.gz file):
+   With AH Formatter (needs to be an *.rpm.gz file):
    ```
    docker build --build-arg AH_FORMATTER_FILE=AHFormatter.rpm.gz -t printcss-live-backend .
+   ```
+    
+   With BFO Publisher (needs to be the bfopublisher-bundle-*.jar file):
+   ```
+   docker build --build-arg BFO_PUBLISHER_FILE=bfopublisher-bundle-1.3.jar -t printcss-live-backend .
+   ```
+
+   With all renderes:
+   ```
+   docker build --build-arg AH_FORMATTER_FILE=AHFormatter.rpm.gz --build-arg BFO_PUBLISHER_FILE=bfopublisher-bundle-1.3.jar -t printcss-live-backend .
    ```
 
 3. Run the container:
@@ -37,7 +47,7 @@ POST
 
 ### Parameters
 
-- **tool** (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, weasyprint, ahformatter
+- **tool** (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, weasyprint, ahformatter, bfopublisher
 - **input_file** (file, required): The input HTML file to convert to PDF
 
 ### Response
@@ -66,6 +76,7 @@ This service supports the following PDF generation tools:
 | Vivliostyle | [https://vivliostyle.org/](https://vivliostyle.org/) | [License](https://github.com/vivliostyle/vivliostyle-cli?tab=AGPL-3.0-1-ov-file#readme) |
 | WeasyPrint | [https://weasyprint.org/](https://weasyprint.org/) | [License](https://doc.courtbouillon.org/weasyprint/stable/) |
 | AH Formatter | [https://www.antennahouse.com/](https://www.antennahouse.com/) | [License](https://www.antennahouse.com/licensing) |
+| BFO Publisher | [https://publisher.bfo.com/](https://publisher.bfo.com/) | [License](https://publisher.bfo.com/live/help/license.html) |
 
 Each tool has its own strengths and may produce slightly different results. This docker container will help you to choose the tool that best fits your specific requirements.
 

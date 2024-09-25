@@ -8,8 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PRINCE_VERSION=15.4.1-1
 ENV PRINCE_FILENAME=prince_${PRINCE_VERSION}_ubuntu24.04_amd64.deb
 
-# Define build argument for AH Formatter file
+# Define build argument for AH Formatter file and BFO Publisher file
 ARG AH_FORMATTER_FILE
+ARG BFO_PUBLISHER_FILE
 
 # Install common dependencies
 RUN apt-get update && apt-get install -y \
@@ -106,6 +107,12 @@ RUN if [ -f /tmp/ahformatter.rpm.gz ]; then \
         ln -s $(find /usr -maxdepth 1 -type d -name "AHFormatter*" | sort -V | tail -n1) /opt/AHFormatter && \
         rm ahformatter.rpm ahformatter*.deb && \
         cd /; \
+    fi
+
+# Copy the BFO Publisher file into the image only if the ARG is provided and the file exists in the build context
+COPY ${BFO_PUBLISHER_FILE} /tmp/
+RUN if [ -n "${BFO_PUBLISHER_FILE}" ] && [ -f "/tmp/$(basename ${BFO_PUBLISHER_FILE})" ]; then \
+      mv "/tmp/$(basename ${BFO_PUBLISHER_FILE})" /opt/bfopublisher.jar; \
     fi
 
 # Install Flask for the web service

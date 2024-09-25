@@ -1,9 +1,6 @@
-from flask import Flask, request, send_file, jsonify, render_template_string
+from flask import Flask, request, send_file, jsonify
 import subprocess
 import os
-import requests
-import pwd
-import grp
 
 app = Flask(__name__)
 
@@ -16,11 +13,11 @@ HTML_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Generation Service</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; }
-        h1 { color: #333; }
-        h2 { color: #666; }
-        code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
-        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        body {{ font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; }}
+        h1 {{ color: #333; }}
+        h2 {{ color: #666; }}
+        code {{ background-color: #f4f4f4; padding: 2px 5px; border-radius: 3px; }}
+        pre {{ background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }}
     </style>
 </head>
 <body>
@@ -33,7 +30,7 @@ HTML_TEMPLATE = """
     
     <h3>Parameters:</h3>
     <ul>
-        <li><strong>tool</strong> (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, weasyprint, ahformatter</li>
+        <li><strong>tool</strong> (string, required): The PDF generation tool to use. Options: {tools}</li>
         <li><strong>input_file</strong> (file, required): The input HTML file to convert to PDF</li>
     </ul>
     
@@ -59,9 +56,22 @@ def run_command(command):
     except subprocess.CalledProcessError as e:
         return f"Error: {e.stderr}", None
 
+def get_available_tools():
+    tools = ["pdfreactor", "prince", "vivliostyle", "weasyprint"]
+    
+    # Check for AH Formatter
+    if os.path.exists('/opt/AHFormatter'):
+        tools.append("ahformatter")
+    
+    # Check for BFO Publisher
+    if os.path.exists('/opt/bfopublisher.jar'):
+        tools.append("bfopublisher")
+    
+    return ", ".join(tools)
+
 @app.route('/')
 def root():
-    return render_template_string(HTML_TEMPLATE)
+    return HTML_TEMPLATE.format(tools=get_available_tools())
 
 @app.route('/generate_pdf', methods=['GET'])
 def describe_usage():
@@ -73,7 +83,7 @@ def describe_usage():
                 "type": "string",
                 "description": "The PDF generation tool to use",
                 "required": True,
-                "options": ["pdfreactor", "prince", "vivliostyle", "weasyprint", "ahformatter"]
+                "options": get_available_tools().split(", ")
             },
             "input_file": {
                 "type": "file",
@@ -114,6 +124,8 @@ def generate_pdf():
             error, output = run_command(['weasyprint', input_path, output_path])
         elif tool == 'ahformatter':
             error, output = run_command(['/opt/AHFormatter/run.sh', '-x', '4', '-d', input_path, '-o', output_path])
+        elif tool == 'bfopublisher':
+            error, output = run_command(['java', '-jar', '/opt/bfopublisher.jar', '--format', 'pdf', '--output', output_path, input_path])
         else:
             app.logger.error(f"Unsupported tool: {tool}")
             return "Unsupported tool", 400
