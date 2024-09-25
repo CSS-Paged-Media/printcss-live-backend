@@ -119,7 +119,7 @@ RUN if [ -n "${BFO_PUBLISHER_FILE}" ] && [ -f "/tmp/$(basename ${BFO_PUBLISHER_F
     fi
 
 # Install Flask for the web service
-RUN pip3 install --no-cache-dir flask requests
+RUN pip3 install --no-cache-dir flask flask-cors
 
 # Create directories for data, and the web service and change ownership to pdfuser
 RUN mkdir /data /app
