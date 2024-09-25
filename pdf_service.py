@@ -45,6 +45,9 @@ HTML_TEMPLATE = """
     
     <h3>Example cURL command:</h3>
     <pre><code>curl -X POST -F 'tool=weasyprint' -F 'input_file=@/path/to/your/input.html' http://localhost:5000/generate_pdf --output output.pdf</code></pre>
+
+    <h2>API Documentation</h2>
+    <p>For detailed API documentation in JSON format, send a GET request to the <code>/generate_pdf</code> endpoint.</p>
 </body>
 </html>
 """
@@ -55,6 +58,36 @@ def run_command(command):
         return None, result.stdout  # No error, return stdout
     except subprocess.CalledProcessError as e:
         return f"Error: {e.stderr}", None
+
+@app.route('/')
+def root():
+    return render_template_string(HTML_TEMPLATE)
+
+@app.route('/generate_pdf', methods=['GET'])
+def describe_usage():
+    usage = {
+        "endpoint": "/generate_pdf",
+        "method": "POST",
+        "parameters": {
+            "tool": {
+                "type": "string",
+                "description": "The PDF generation tool to use",
+                "required": True,
+                "options": ["pdfreactor", "prince", "vivliostyle", "weasyprint", "ahformatter"]
+            },
+            "input_file": {
+                "type": "file",
+                "description": "The input HTML file to convert to PDF",
+                "required": True
+            }
+        },
+        "response": {
+            "success": "Returns the generated PDF file",
+            "error": "Returns an error message with status code 400 or 500"
+        },
+        "example_curl": "curl -X POST -F 'tool=weasyprint' -F 'input_file=@/path/to/your/input.html' http://localhost:5000/generate_pdf --output output.pdf"
+    }
+    return jsonify(usage)
 
 @app.route('/generate_pdf', methods=['POST'])
 def generate_pdf():
