@@ -69,15 +69,15 @@ For detailed API documentation in JSON format, send a GET request to the `/gener
 
 This service supports the following PDF generation tools:
 
-| Name | Website | License |
-|------|---------|---------|
-| PDFreactor | [https://www.pdfreactor.com/](https://www.pdfreactor.com/) | [License](https://www.pdfreactor.com/product/license/PDFreactor%20Software%20License%20Agreement.pdf) |
-| Prince | [https://www.princexml.com/](https://www.princexml.com/) | [License](https://www.princexml.com/license/) |
-| Vivliostyle | [https://vivliostyle.org/](https://vivliostyle.org/) | [License](https://github.com/vivliostyle/vivliostyle-cli?tab=AGPL-3.0-1-ov-file#readme) |
-| PagedJS | [https://pagedjs.org/](https://pagedjs.org/) | [License](https://gitlab.coko.foundation/pagedjs/pagedjs-cli/-/blob/main/LICENSE) |
-| WeasyPrint | [https://weasyprint.org/](https://weasyprint.org/) | [License](https://doc.courtbouillon.org/weasyprint/stable/) |
-| AH Formatter | [https://www.antennahouse.com/](https://www.antennahouse.com/) | [License](https://www.antennahouse.com/licensing) |
-| BFO Publisher | [https://publisher.bfo.com/](https://publisher.bfo.com/) | [License](https://publisher.bfo.com/live/help/license.html) |
+|   | Name | Website | License |
+|---|------|---------|---------|
+| 💰 | PDFreactor | [https://www.pdfreactor.com/](https://www.pdfreactor.com/) | [License](https://www.pdfreactor.com/product/license/PDFreactor%20Software%20License%20Agreement.pdf) |
+| 💰 | Prince | [https://www.princexml.com/](https://www.princexml.com/) | [License](https://www.princexml.com/license/) |
+| 🆓 | Vivliostyle | [https://vivliostyle.org/](https://vivliostyle.org/) | [License](https://github.com/vivliostyle/vivliostyle-cli?tab=AGPL-3.0-1-ov-file#readme) |
+| 🆓 | PagedJS | [https://pagedjs.org/](https://pagedjs.org/) | [License](https://gitlab.coko.foundation/pagedjs/pagedjs-cli/-/blob/main/LICENSE) |
+| 🆓 | WeasyPrint | [https://weasyprint.org/](https://weasyprint.org/) | [License](https://doc.courtbouillon.org/weasyprint/stable/) |
+| 💰 | AH Formatter | [https://www.antennahouse.com/](https://www.antennahouse.com/) | [License](https://www.antennahouse.com/licensing) |
+| 💰 | BFO Publisher | [https://publisher.bfo.com/](https://publisher.bfo.com/) | [License](https://publisher.bfo.com/live/help/license.html) |
 
 Each tool has its own strengths and may produce slightly different results. This docker container will help you to choose the tool that best fits your specific requirements.
 
