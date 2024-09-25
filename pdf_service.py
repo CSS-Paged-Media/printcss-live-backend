@@ -27,23 +27,32 @@ HTML_TEMPLATE = """
     <p>This service provides an API to generate PDFs using various tools.</p>
     
     <h2>API Usage</h2>
-    <p>Endpoint: <code>/generate_pdf</code></p>
+    <h3>Endpoint: <code>/generate_pdf</code></h3>
     <p>Method: POST</p>
     
-    <h3>Parameters:</h3>
+    <h4>Parameters:</h4>
     <ul>
         <li><strong>tool</strong> (string, required): The PDF generation tool to use. Options: {tools}</li>
         <li><strong>input_file</strong> (file, required): The input HTML file to convert to PDF</li>
     </ul>
     
-    <h3>Response:</h3>
+    <h4>Response:</h4>
     <ul>
         <li>Success: Returns the generated PDF file</li>
         <li>Error: Returns an error message with status code 400 or 500</li>
     </ul>
-    
-    <h3>Example cURL command:</h3>
+
+    <h4>Example cURL command:</h4>
     <pre><code>curl -X POST -F 'tool=weasyprint' -F 'input_file=@/path/to/your/input.html' http://localhost:5000/generate_pdf --output output.pdf</code></pre>
+
+    <h3>Endpoint <code>/supported_tools</code></h3>
+    <p>Method: GET</p>
+    
+    <h4>Response:</h4>
+    <p>Returns a list of supported tools.</p>
+    
+    <h4>Example cURL command:</h4>
+    <pre><code>curl http://localhost:5000/supported_tools</code></pre>
 
     <h2>API Documentation</h2>
     <p>For detailed API documentation in JSON format, send a GET request to the <code>/generate_pdf</code> endpoint.</p>
@@ -74,6 +83,10 @@ def get_available_tools():
 @app.route('/')
 def root():
     return HTML_TEMPLATE.format(tools=get_available_tools())
+
+@app.route('/supported_tools', methods=['GET'])
+def supported_tools():
+    return get_available_tools().split(", ")
 
 @app.route('/generate_pdf', methods=['GET'])
 def describe_usage():

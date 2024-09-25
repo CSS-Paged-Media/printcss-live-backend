@@ -61,6 +61,22 @@ POST
 curl -X POST -F 'tool=weasyprint' -F 'input_file=@/path/to/your/input.html' http://localhost:5000/generate_pdf --output output.pdf
 ```
 
+### Endpoint
+`/supported_tools`
+
+### Method
+GET
+
+### Response
+
+Returns a list of supported tools.
+
+### Example cURL command
+
+```
+curl http://localhost:5000/supported_tools
+```
+
 ## API Documentation
 
 For detailed API documentation in JSON format, send a GET request to the `/generate_pdf` endpoint.
