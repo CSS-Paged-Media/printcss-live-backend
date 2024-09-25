@@ -47,7 +47,7 @@ POST
 
 ### Parameters
 
-- **tool** (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, weasyprint, ahformatter, bfopublisher
+- **tool** (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, pagedjs, weasyprint, ahformatter, bfopublisher
 - **input_file** (file, required): The input HTML file to convert to PDF
 
 ### Response
@@ -74,6 +74,7 @@ This service supports the following PDF generation tools:
 | PDFreactor | [https://www.pdfreactor.com/](https://www.pdfreactor.com/) | [License](https://www.pdfreactor.com/product/license/PDFreactor%20Software%20License%20Agreement.pdf) |
 | Prince | [https://www.princexml.com/](https://www.princexml.com/) | [License](https://www.princexml.com/license/) |
 | Vivliostyle | [https://vivliostyle.org/](https://vivliostyle.org/) | [License](https://github.com/vivliostyle/vivliostyle-cli?tab=AGPL-3.0-1-ov-file#readme) |
+| PagedJS | [https://pagedjs.org/](https://pagedjs.org/) | [License](https://gitlab.coko.foundation/pagedjs/pagedjs-cli/-/blob/main/LICENSE) |
 | WeasyPrint | [https://weasyprint.org/](https://weasyprint.org/) | [License](https://doc.courtbouillon.org/weasyprint/stable/) |
 | AH Formatter | [https://www.antennahouse.com/](https://www.antennahouse.com/) | [License](https://www.antennahouse.com/licensing) |
 | BFO Publisher | [https://publisher.bfo.com/](https://publisher.bfo.com/) | [License](https://publisher.bfo.com/live/help/license.html) |

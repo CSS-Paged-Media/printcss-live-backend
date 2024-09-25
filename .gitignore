@@ -1,3 +1,5 @@
 
 *.gz
 *.jar
+*.html
+*.pdf

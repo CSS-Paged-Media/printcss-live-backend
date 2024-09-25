@@ -57,7 +57,7 @@ def run_command(command):
         return f"Error: {e.stderr}", None
 
 def get_available_tools():
-    tools = ["pdfreactor", "prince", "vivliostyle", "weasyprint"]
+    tools = ["pdfreactor", "prince", "vivliostyle", "pagedjs", "weasyprint"]
     
     # Check for AH Formatter
     if os.path.exists('/opt/AHFormatter'):
@@ -120,6 +120,8 @@ def generate_pdf():
             error, output = run_command(['prince', input_path, '-o', output_path])
         elif tool == 'vivliostyle':
             error, output = run_command(['vivliostyle', 'build', input_path, '-o', output_path])
+        elif tool == 'pagedjs':
+            error, output = run_command(['pagedjs-cli', input_path, '-o', output_path])
         elif tool == 'weasyprint':
             error, output = run_command(['weasyprint', input_path, output_path])
         elif tool == 'ahformatter':

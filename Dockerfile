@@ -83,6 +83,9 @@ RUN playwright install --with-deps chromium
 # Install Vivliostyle
 RUN npm install -g @vivliostyle/cli
 
+# Install PagedJS
+RUN npm install -g pagedjs-cli
+
 # Install Prince
 RUN wget https://www.princexml.com/download/${PRINCE_FILENAME} \
     && apt-get update \
