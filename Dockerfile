@@ -8,6 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PRINCE_VERSION=15.4.1-1
 ENV PRINCE_FILENAME=prince_${PRINCE_VERSION}_ubuntu24.04_amd64.deb
 
+# Define build argument for AH Formatter file
+ARG AH_FORMATTER_FILE
+
 # Install common dependencies
 RUN apt-get update && apt-get install -y \
     wget \
@@ -37,6 +40,8 @@ RUN apt-get update && apt-get install -y \
     libasound2t64 \
     libpango-1.0-0 \
     libcairo2 \
+    # Dependencies for AH Formatter
+    alien \ 
     && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user
@@ -91,12 +96,24 @@ RUN wget -O pdfreactor.tar.gz "https://www.pdfreactor.com/download/get/?product=
     && rm pdfreactor.tar.gz \
     && find . -maxdepth 1 -type d -name "PDFreactor*" -exec mv {} /opt/ \;
 
+# Copy and install AH Formatter if the file is provided
+COPY ${AH_FORMATTER_FILE} /tmp/ahformatter.rpm.gz
+RUN if [ -f /tmp/ahformatter.rpm.gz ]; then \
+        cd /tmp && \
+        gunzip ahformatter.rpm.gz && \
+        alien --scripts --to-deb ahformatter.rpm && \
+        dpkg -i ahformatter*.deb && \
+        ln -s $(find /usr -maxdepth 1 -type d -name "AHFormatter*" | sort -V | tail -n1) /opt/AHFormatter && \
+        rm ahformatter.rpm ahformatter*.deb && \
+        cd /; \
+    fi
+
 # Install Flask for the web service
 RUN pip3 install --no-cache-dir flask requests
 
 # Create directories for data, and the web service and change ownership to pdfuser
 RUN mkdir /data /app
-RUN chown -R pdfuser:pdfuser ${PLAYWRIGHT_BROWSERS_PATH} ${NPM_CONFIG_PREFIX} /opt/venv /opt/PDFreactor /data /app
+RUN chown -R pdfuser:pdfuser /opt /data /app
 
 # Copy the web service script and set ownership to pdfuser
 COPY pdf_service.py /app/pdf_service.py

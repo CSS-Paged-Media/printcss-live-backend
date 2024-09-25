@@ -17,6 +17,11 @@ To build the Docker container for this service, follow these steps:
    docker build -t printcss-live-backend .
    ```
 
+   Or with AH Formatter (needs to be an *.rpm.gz file):
+   ```
+   docker build --build-arg AH_FORMATTER_FILE=AHFormatter.rpm.gz -t printcss-live-backend .
+   ```
+
 3. Run the container:
    ```
    docker run -d -p 5000:5000 --name printcss-live-backend-container printcss-live-backend
@@ -32,7 +37,7 @@ POST
 
 ### Parameters
 
-- **tool** (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, weasyprint
+- **tool** (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, weasyprint, ahformatter
 - **input_file** (file, required): The input HTML file to convert to PDF
 
 ### Response
@@ -58,6 +63,7 @@ This service supports the following PDF generation tools:
 2. Prince ([License](https://www.princexml.com/license/))
 3. Vivliostyle ([License](https://github.com/vivliostyle/vivliostyle-cli?tab=AGPL-3.0-1-ov-file#readme))
 4. WeasyPrint ([License](https://doc.courtbouillon.org/weasyprint/stable/))
+5. AH Formatter ([License](https://www.antennahouse.com/licensing))
 
 Each tool has its own strengths and may produce slightly different results. Choose the tool that best fits your specific requirements.
 

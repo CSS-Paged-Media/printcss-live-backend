@@ -33,7 +33,7 @@ HTML_TEMPLATE = """
     
     <h3>Parameters:</h3>
     <ul>
-        <li><strong>tool</strong> (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, weasyprint</li>
+        <li><strong>tool</strong> (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, weasyprint, ahformatter</li>
         <li><strong>input_file</strong> (file, required): The input HTML file to convert to PDF</li>
     </ul>
     
@@ -45,9 +45,6 @@ HTML_TEMPLATE = """
     
     <h3>Example cURL command:</h3>
     <pre><code>curl -X POST -F 'tool=weasyprint' -F 'input_file=@/path/to/your/input.html' http://localhost:5000/generate_pdf --output output.pdf</code></pre>
-    
-    <h2>API Documentation</h2>
-    <p>For detailed API documentation in JSON format, send a GET request to the <code>/generate_pdf</code> endpoint.</p>
 </body>
 </html>
 """
@@ -82,10 +79,12 @@ def generate_pdf():
             error, output = run_command(['vivliostyle', 'build', input_path, '-o', output_path])
         elif tool == 'weasyprint':
             error, output = run_command(['weasyprint', input_path, output_path])
+        elif tool == 'ahformatter':
+            error, output = run_command(['/opt/AHFormatter/run.sh', '-x', '4', '-d', input_path, '-o', output_path])
         else:
             app.logger.error(f"Unsupported tool: {tool}")
             return "Unsupported tool", 400
-        
+       
         if error or (output and "error" in output.lower()):
             app.logger.error(f"Error during PDF generation with {tool}: {error or output}")
             return error or output, 500
