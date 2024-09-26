@@ -43,6 +43,7 @@ To build the Docker container for this service, follow these steps:
    ```
 
    CORS
+   
    The default allowed origin is `http://localhost:*`, if you want to change it, pass the ALLOWED_ORIGIN parameter.
    ```
    docker run -d -p 5000:5000 -e ALLOWED_ORIGIN="http://yourhost:*" --name printcss-live-backend-container printcss-live-backend
