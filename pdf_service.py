@@ -77,6 +77,10 @@ def get_available_tools():
     # Check for BFO Publisher
     if os.path.exists('/opt/bfopublisher.jar'):
         tools.append("bfopublisher")
+
+    # Check for Typeset.sh
+    if os.path.exists('/opt/typesetsh.phar'):
+        tools.append("typesetsh")
     
     return ", ".join(tools)
 
@@ -143,6 +147,8 @@ def generate_pdf():
             error, output = run_command(['/opt/AHFormatter/run.sh', '-x', '4', '-d', input_path, '-o', output_path])
         elif tool == 'bfopublisher':
             error, output = run_command(['java', '-jar', '/opt/bfopublisher.jar', '--format', 'pdf', '--output', output_path, input_path])
+        elif tool == 'typesetsh':
+            error, output = run_command(['php', '/opt/typesetsh.phar', 'render:html', input_path, output_path])
         else:
             app.logger.error(f"Unsupported tool: {tool}")
             return "Unsupported tool", 400

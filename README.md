@@ -27,9 +27,14 @@ To build the Docker container for this service, follow these steps:
    docker build --build-arg BFO_PUBLISHER_FILE=bfopublisher-bundle-1.3.jar -t printcss-live-backend .
    ```
 
+   With Typeset.sh (needs to be a *.phar file):
+   ```
+   docker build --build-arg TYPESETSH_FILE=typesetsh.phar -t printcss-live-backend .
+   ```
+
    With all renderes:
    ```
-   docker build --build-arg AH_FORMATTER_FILE=AHFormatter.rpm.gz --build-arg BFO_PUBLISHER_FILE=bfopublisher-bundle-1.3.jar -t printcss-live-backend .
+   docker build --build-arg AH_FORMATTER_FILE=AHFormatter.rpm.gz --build-arg BFO_PUBLISHER_FILE=bfopublisher-bundle-1.3.jar --build-arg TYPESETSH_FILE=typesetsh.phar -t printcss-live-backend .
    ```
 
 3. Run the container:
@@ -47,7 +52,7 @@ POST
 
 ### Parameters
 
-- **tool** (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, pagedjs, weasyprint, ahformatter, bfopublisher
+- **tool** (string, required): The PDF generation tool to use. Options: pdfreactor, prince, vivliostyle, pagedjs, weasyprint, ahformatter, bfopublisher, typesetsh
 - **input_file** (file, required): The input HTML file to convert to PDF
 
 ### Response
@@ -94,6 +99,7 @@ This service supports the following PDF generation tools:
 | 🆓 | WeasyPrint | [https://weasyprint.org/](https://weasyprint.org/) | [License](https://doc.courtbouillon.org/weasyprint/stable/) |
 | 💰 | AH Formatter | [https://www.antennahouse.com/](https://www.antennahouse.com/) | [License](https://www.antennahouse.com/licensing) |
 | 💰 | BFO Publisher | [https://publisher.bfo.com/](https://publisher.bfo.com/) | [License](https://publisher.bfo.com/live/help/license.html) |
+| 💰 | Typeset.sh | [https://typeset.sh/](https://typeset.sh/) | [License](https://typeset.sh/en/licence) |
 
 Each tool has its own strengths and may produce slightly different results. This docker container will help you to choose the tool that best fits your specific requirements.
 

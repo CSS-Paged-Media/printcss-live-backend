@@ -11,6 +11,7 @@ ENV PRINCE_FILENAME=prince_${PRINCE_VERSION}_ubuntu24.04_amd64.deb
 # Define build argument for AH Formatter file and BFO Publisher file
 ARG AH_FORMATTER_FILE
 ARG BFO_PUBLISHER_FILE
+ARG TYPESETSH_FILE
 
 # Install common dependencies
 RUN apt-get update && apt-get install -y \
@@ -41,8 +42,6 @@ RUN apt-get update && apt-get install -y \
     libasound2t64 \
     libpango-1.0-0 \
     libcairo2 \
-    # Dependencies for AH Formatter
-    alien \ 
     && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user
@@ -103,6 +102,10 @@ RUN wget -O pdfreactor.tar.gz "https://www.pdfreactor.com/download/get/?product=
 # Copy and install AH Formatter if the file is provided
 COPY ${AH_FORMATTER_FILE} /tmp/ahformatter.rpm.gz
 RUN if [ -f /tmp/ahformatter.rpm.gz ]; then \
+        apt-get update && apt-get install -y \
+        # Dependencies for AH Formatter
+        alien \ 
+        && rm -rf /var/lib/apt/lists/* && \
         cd /tmp && \
         gunzip ahformatter.rpm.gz && \
         alien --scripts --to-deb ahformatter.rpm && \
@@ -115,7 +118,27 @@ RUN if [ -f /tmp/ahformatter.rpm.gz ]; then \
 # Copy the BFO Publisher file into the image only if the ARG is provided and the file exists in the build context
 COPY ${BFO_PUBLISHER_FILE} /tmp/
 RUN if [ -n "${BFO_PUBLISHER_FILE}" ] && [ -f "/tmp/$(basename ${BFO_PUBLISHER_FILE})" ]; then \
-      mv "/tmp/$(basename ${BFO_PUBLISHER_FILE})" /opt/bfopublisher.jar; \
+        mv "/tmp/$(basename ${BFO_PUBLISHER_FILE})" /opt/bfopublisher.jar; \
+    fi
+
+# Copy the Typeset.sh file into the image only if the ARG is provided and the file exists in the build context
+COPY ${TYPESETSH_FILE} /tmp/
+RUN if [ -n "${TYPESETSH_FILE}" ] && [ -f "/tmp/$(basename ${TYPESETSH_FILE})" ]; then \
+        apt-get update && apt-get install -y \
+        # Install PHP 8.3 and required extensions
+        php8.3 \
+        php8.3-cli \
+        php8.3-curl \
+        php8.3-dom \
+        php8.3-exif \
+        php8.3-fileinfo \
+        php8.3-gd \
+        php8.3-iconv \
+        php8.3-xml \
+        php8.3-simplexml \
+        && rm -rf /var/lib/apt/lists/* && \
+        mv "/tmp/$(basename ${TYPESETSH_FILE})" /opt/typesetsh.phar && \
+        chmod +x /opt/typesetsh.phar; \
     fi
 
 # Install Flask for the web service
