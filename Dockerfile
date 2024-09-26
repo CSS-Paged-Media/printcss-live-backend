@@ -166,4 +166,4 @@ EXPOSE 5000
 USER pdfuser
 
 # Set the entry point to start the web service as pdfuser
-ENTRYPOINT ["/bin/bash", "-c", "source /etc/profile && python3 pdf_service.py"]
+ENTRYPOINT ["/bin/bash", "-c", "source /etc/profile && python3 pdf_service.py ${ALLOWED_ORIGIN:+--allowed-origin $ALLOWED_ORIGIN}"]
