@@ -3,6 +3,7 @@ from flask_cors import CORS
 import subprocess
 import os
 import argparse
+import ssl
 
 def create_app(allowed_origin=None):
     app = Flask(__name__)
@@ -183,4 +184,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     app = create_app(args.allowed_origin)
-    app.run(host='0.0.0.0', port=5000)
+
+    # Set up the SSL context
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain(certfile='/opt/ssl/certs/fullchain.pem', keyfile='/opt/ssl/private/privkey.pem')
+
+    # Run the app with SSL
+    app.run(host='0.0.0.0', port=5000, ssl_context=context)

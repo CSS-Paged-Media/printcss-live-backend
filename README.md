@@ -37,9 +37,15 @@ To build the Docker container for this service, follow these steps:
    docker build --build-arg AH_FORMATTER_FILE=AHFormatter.rpm.gz --build-arg BFO_PUBLISHER_FILE=bfopublisher-bundle-1.3.jar --build-arg TYPESETSH_FILE=typesetsh.phar -t printcss-live-backend .
    ```
 
-3. Run the container:
+3. Create SSL Cert:
+
    ```
-   docker run -d -p 5000:5000 --name printcss-live-backend-container printcss-live-backend
+   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/privkey.pem -out /etc/ssl/certs/fullchain.pem
+   ```
+
+4. Run the container:
+   ```
+   docker run -d -p 443:5000 --name printcss-live-backend-container -v /etc/ssl/certs/fullchain.pem:/opt/ssl/certs/fullchain.pem -v /etc/ssl/private/privkey.pem:/opt/ssl/private/privkey.pem printcss-live-backend
    ```
 
    CORS
