@@ -119,6 +119,6 @@ Each tool has its own strengths and may produce slightly different results. This
 There is no possibility to add the license keys for PDFreactor, AH Formatter and Prince yet.
 
 ## Notes
-- The service runs on port 5000 inside the container, which is mapped to port 5000 on your host machine in the example run command above.
+- The service runs on port 5000 inside the container, which is mapped to port 443 on your host machine in the example run command above.
 
 For any issues or feature requests, please open an issue on this GitHub repository.
