@@ -94,7 +94,7 @@ RUN wget https://www.princexml.com/download/${PRINCE_FILENAME} \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PDFreactor
-RUN wget -O pdfreactor.zip "https://www.pdfreactor.com/download/get/?product=pdfreactor-lib&type=jar&jre=false" \
+RUN wget -O pdfreactor.zip "https://www.pdfreactor.com/download/get/?product=pdfreactor-lib&type=uber_jar&jre=false" \
     && unzip pdfreactor.zip -d "PDFreactor" \
     && rm pdfreactor.zip \
     && mv PDFreactor /opt/

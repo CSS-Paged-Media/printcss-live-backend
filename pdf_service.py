@@ -141,7 +141,7 @@ def create_app(allowed_origin=None):
             
             # Run the appropriate tool
             if tool == 'pdfreactor':
-                error, output = run_command(['java', '-jar', '/opt/PDFreactor/pdfreactor.jar', '-i', input_path, '-o', output_path])
+                error, output = run_command(['java', '-jar', '/opt/PDFreactor/pdfreactor-uber.jar', '-i', input_path, '-o', output_path])
             elif tool == 'prince':
                 error, output = run_command(['prince', input_path, '-o', output_path])
             elif tool == 'vivliostyle':
