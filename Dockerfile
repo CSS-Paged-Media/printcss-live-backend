@@ -97,7 +97,7 @@ RUN wget https://www.princexml.com/download/${PRINCE_FILENAME} \
 RUN wget -O pdfreactor.zip "https://www.pdfreactor.com/download/get/?product=pdfreactor-lib&type=jar&jre=false" \
     && unzip pdfreactor.zip -d "PDFreactor" \
     && rm pdfreactor.zip \
-    && mv PDFreactor /opt/ \;
+    && mv PDFreactor /opt/
 
 # Copy and install AH Formatter if the file is provided
 COPY ${AH_FORMATTER_FILE} /tmp/ahformatter.rpm.gz
