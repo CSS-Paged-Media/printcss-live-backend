@@ -185,9 +185,26 @@ if __name__ == '__main__':
 
     app = create_app(args.allowed_origin)
 
-    # Set up the SSL context
-    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    context.load_cert_chain(certfile='/opt/ssl/certs/fullchain.pem', keyfile='/opt/ssl/private/privkey.pem')
-
-    # Run the app with SSL
-    app.run(host='0.0.0.0', port=5000, ssl_context=context)
+    # SSL certificate paths
+    cert_file = '/opt/ssl/certs/fullchain.pem'
+    key_file = '/opt/ssl/private/privkey.pem'
+    
+    # Check if both certificate files exist
+    ssl_files_exist = os.path.isfile(cert_file) and os.path.isfile(key_file)
+    
+    if ssl_files_exist:
+        try:
+            # Set up the SSL context
+            context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            context.load_cert_chain(certfile=cert_file, keyfile=key_file)
+            # Run the app with SSL
+            print("Starting server with SSL enabled")
+            app.run(host='0.0.0.0', port=5000, ssl_context=context)
+        except Exception as e:
+            print(f"Failed to start with SSL: {e}")
+            print("Falling back to non-SSL mode")
+            app.run(host='0.0.0.0', port=5000)
+    else:
+        # Run the app without SSL
+        print("Certificate files not found. Starting without SSL")
+        app.run(host='0.0.0.0', port=5000)
