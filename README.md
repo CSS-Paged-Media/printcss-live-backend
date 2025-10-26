@@ -8,7 +8,7 @@ To build the Docker container for this service, follow these steps:
 
 1. Clone this repository:
    ```
-   git clone https://github.com/azettl/printcss-live-backend.git
+   git clone https://github.com/CSS-Paged-Media/printcss-live-backend.git
    cd printcss-live-backend
    ```
 
